@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
     }
 
 }
