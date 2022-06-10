@@ -74,6 +74,9 @@ dependencies {
     //Splash
     implementation 'androidx.core:core-splashscreen:1.0.0-rc01'
 
+    //Scanner
+    implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
+
     //ThermalPrinter
     implementation 'com.github.DantSu:ESCPOS-ThermalPrinter-Android:3.2.0'
 
