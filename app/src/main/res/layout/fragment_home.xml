@@ -6,8 +6,11 @@
     tools:context="ui.home.HomeFragment">
 
     <TextView
+        android:id="@+id/tvText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_20dp"
+        android:padding="@dimen/_20dp"
         android:text="@string/hello_blank_fragment" />
 
 </FrameLayout>

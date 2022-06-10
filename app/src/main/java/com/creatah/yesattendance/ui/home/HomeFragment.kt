@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.creatah.yesattendance.R
 import com.creatah.yesattendance.databinding.FragmentHomeBinding
 
@@ -19,6 +20,14 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.tvText.setOnClickListener {
+            val directions = HomeFragmentDirections.actionHomeFragmentToScannerFragment()
+            findNavController().navigate(directions)
+        }
     }
 
 }
