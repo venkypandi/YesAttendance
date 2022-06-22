@@ -116,11 +116,9 @@ class ScannerFragment : Fragment() {
 
                             dialog.btnClose.setOnClickListener {
                                 printDialog?.dismiss()
-                                codeScanner.startPreview()
                             }
                             dialog.btnPrint.setOnClickListener {
                                 printDialog?.dismiss()
-                                codeScanner.startPreview()
                             }
                         }
                         binding.progressBar.visibility = View.GONE
@@ -142,6 +140,9 @@ class ScannerFragment : Fragment() {
             .setView(dialogBinding?.root)
             .setCancelable(false)
             .create()
+        printDialog?.setOnDismissListener {
+            codeScanner.startPreview()
+        }
     }
 
 }
