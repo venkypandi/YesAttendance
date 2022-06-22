@@ -3,10 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Projects/YesAttendance/app/src/main/res/drawable/button_rounded.xml" value="0.1" />
+        <entry key="..\:/Android Projects/YesAttendance/app/src/main/res/drawable/dialog_rounded.xml" value="0.1" />
+        <entry key="..\:/Android Projects/YesAttendance/app/src/main/res/drawable/ic_error.xml" value="0.1" />
         <entry key="..\:/Android Projects/YesAttendance/app/src/main/res/layout/activity_main.xml" value="0.17552083333333332" />
         <entry key="..\:/Android Projects/YesAttendance/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Android Projects/YesAttendance/app/src/main/res/layout/fragment_scanner.xml" value="0.17552083333333332" />
         <entry key="..\:/Android Projects/YesAttendance/app/src/main/res/layout/layout_print_dialog.xml" value="0.17447916666666666" />
+        <entry key="..\:/Android Projects/YesAttendance/app/src/main/res/layout/layout_qr_error.xml" value="0.17447916666666666" />
       </map>
     </option>
   </component>

@@ -3,4 +3,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="scan_qr_code">Scan QR Code</string>
     <string name="img">IMG</string>
+    <string name="qr_error_message">Error: QR code not matched!!</string>
+    <string name="name">Name</string>
+    <string name="empty">-</string>
+    <string name="token">Token</string>
+    <string name="date_time"><![CDATA[Date & Time]]></string>
+    <string name="close">Close</string>
+    <string name="print">Print</string>
 </resources>
