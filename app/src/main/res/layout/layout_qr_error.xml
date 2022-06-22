@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_20dp"
+    android:elevation="@dimen/_20dp"
+    app:cardCornerRadius="@dimen/_10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivError"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="fitXY"
+            android:padding="@dimen/_5dp"
+            android:contentDescription="@string/img"
+            android:src="@drawable/ic_error"
+            android:layout_margin="@dimen/_15dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvErrorMessage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvErrorMessage"
+            android:layout_width="@dimen/_0dp"
+            android:layout_height="wrap_content"
+            style="@style/text_regular_16"
+            android:gravity="center"
+            android:text="@string/qr_error_message"
+            android:layout_marginHorizontal="@dimen/_15dp"
+            android:layout_marginBottom="@dimen/_20dp"
+            app:layout_constraintTop_toBottomOf="@id/ivError"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

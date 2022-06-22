@@ -55,6 +55,7 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:padding">@dimen/_5dp</item>
         <item name="android:textAllCaps">false</item>
+        <item name="android:singleLine">true</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
     </style>
 
@@ -71,6 +72,9 @@
         <item name="windowSplashScreenBackground">@color/white</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/yes_logo</item>
         <item name="postSplashScreenTheme">@style/Theme.YesAttendance</item>
+    </style>
+    <style name="dialog_style" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/dialog_rounded</item>
     </style>
 
 </resources>
