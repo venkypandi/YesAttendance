@@ -10,4 +10,5 @@
     <string name="date_time"><![CDATA[Date & Time]]></string>
     <string name="close">Close</string>
     <string name="print">Print</string>
+    <string name="member_not_found">Member not found</string>
 </resources>
