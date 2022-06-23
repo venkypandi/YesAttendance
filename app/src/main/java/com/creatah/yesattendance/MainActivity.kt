@@ -1,9 +1,9 @@
 package com.creatah.yesattendance
 
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.appcompat.app.AppCompatActivity
 import com.creatah.yesattendance.databinding.ActivityMainBinding
 import com.creatah.yesattendance.utils.ConnectivityCheck
 import dagger.hilt.android.AndroidEntryPoint

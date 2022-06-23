@@ -3,10 +3,12 @@ package com.creatah.yesattendance.ui.scanner
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -14,10 +16,14 @@ import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.creatah.yesattendance.R
+import com.creatah.yesattendance.data.model.ResponseModel
 import com.creatah.yesattendance.databinding.FragmentScannerBinding
 import com.creatah.yesattendance.databinding.LayoutPrintDialogBinding
 import com.creatah.yesattendance.databinding.LayoutQrErrorBinding
 import com.creatah.yesattendance.utils.Status
+import com.dantsu.escposprinter.EscPosPrinter
+import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
+import com.dantsu.escposprinter.textparser.PrinterTextParserImg
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -43,14 +49,7 @@ class ScannerFragment : Fragment() {
         callResponseObserver()
         codeScanner = CodeScanner(requireActivity(), binding.scannerView)
         codeScanner.decodeCallback = DecodeCallback {
-            lifecycleScope.launch {
-                if (it.text.length == 10 && TextUtils.isDigitsOnly(it.text)) {
-                    scannerViewModel.getMemberData(it.text)
-                } else {
-                    errorDialogBinding?.tvErrorMessage?.text = getString(R.string.qr_error_message)
-                    errorDialog?.show()
-                }
-            }
+            scannerViewModel.getMemberData(it.text)
         }
         codeScanner.errorCallback = ErrorCallback {
             errorDialogBinding?.tvErrorMessage?.text = it.message
@@ -102,7 +101,7 @@ class ScannerFragment : Fragment() {
                         binding.progressBar.visibility = View.VISIBLE
                     }
                     Status.SUCCESS -> {
-                        if (it.data != null) {
+                        if(it.data!!.error == true) {
                             val data = it.data
                             dialogBinding?.let { dialog ->
                                 dialog.tvNameText.text = data.memberName ?: "-"
@@ -114,24 +113,53 @@ class ScannerFragment : Fragment() {
                                 }
                                 dialog.btnPrint.setOnClickListener {
                                     printDialog?.dismiss()
+                                    printReceipt(data)
                                 }
                             }
                             printDialog?.show()
                         } else {
-                            errorDialogBinding?.tvErrorMessage?.text = getString(R.string.member_not_found)
+                            errorDialogBinding?.tvErrorMessage?.text = "Member not found"
                             errorDialog?.show()
                         }
                         binding.progressBar.visibility = View.GONE
+
                     }
                     Status.ERROR -> {
                         it.message?.let { it1 ->
                             errorDialogBinding?.tvErrorMessage?.text = it1
                             errorDialog?.show()
                         }
+                        binding.progressBar.visibility = View.GONE
                     }
                 }
             }
         }
+    }
+
+    private fun printReceipt(data:ResponseModel){
+        val printer =
+            EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
+        printer.printFormattedText(
+            "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(
+                printer,
+                ResourcesCompat.getDrawableForDensity(
+                    resources,
+                    R.drawable.yes_logo,
+                    DisplayMetrics.DENSITY_MEDIUM,
+                    null
+                )
+            ) + "</img>\n" +
+                    "[L]\n" +
+                    "[C]-------------------------\n" +
+                    "[L]\n" +
+                    "[C]<b>NAME</b>:${data.memberName}\n"+
+                    "[C]<b>TOKEN NO.:</b>:${data.tokenNumber}\n"+
+                    "[C]<b>TIME:</b>:${data.dateTime}\n"+
+                    "[L]\n" +
+                    "[C]-------------------------\n" +
+                    "[C]*** Thank You ***\n"
+
+        )
     }
 
     private fun createDialog() {

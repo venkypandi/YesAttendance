@@ -19,7 +19,7 @@ object AppModule {
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(BuildConfig.URL)
+            .baseUrl("http://103.146.177.186/~yes/public_html/api/v1/index.php/")
             .build()
     }
 
