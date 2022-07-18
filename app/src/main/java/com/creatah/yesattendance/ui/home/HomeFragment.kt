@@ -8,8 +8,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,21 +15,18 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.creatah.yesattendance.BuildConfig
-import com.creatah.yesattendance.R
 import com.creatah.yesattendance.databinding.FragmentHomeBinding
-import com.dantsu.escposprinter.EscPosPrinter
-import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
-import com.dantsu.escposprinter.textparser.PrinterTextParserImg
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var cameraPermissionSetting: ActivityResultLauncher<Intent>
+    private var bFlag = false
+    private var cFlag = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,10 +43,9 @@ class HomeFragment : Fragment() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 requestMultiplePermissions.launch(
                     arrayOf(
-                        Manifest.permission.BLUETOOTH,
-                        Manifest.permission.BLUETOOTH_ADMIN,
                         Manifest.permission.BLUETOOTH_SCAN,
-                        Manifest.permission.BLUETOOTH_CONNECT
+                        Manifest.permission.BLUETOOTH_CONNECT,
+                        Manifest.permission.CAMERA
                     )
                 )
             } else {
@@ -87,6 +81,12 @@ class HomeFragment : Fragment() {
 //
 //            )
         }
+
+        cameraPermissionSetting =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+
+            }
+
         return binding.root
     }
 
@@ -108,15 +108,34 @@ class HomeFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
 
             permissions.entries.forEach {
-                when (it.key) {
-                    Manifest.permission.CAMERA -> {
-                        if (it.value) {
 
-                        } else {
-                            requestPermissions(it.key)
-                        }
+                if (it.key == Manifest.permission.CAMERA) {
+                    cFlag = it.value
+                    if (!cFlag) {
+                        requestPermissions(it.key)
+                        Toast.makeText(
+                            requireContext(),
+                            "Camera Permission Required",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
+
+                if (it.key == Manifest.permission.BLUETOOTH_SCAN) {
+                    bFlag = it.value
+                    if (!bFlag) {
+                        requestPermissions(it.key)
+                        Toast.makeText(
+                            requireContext(),
+                            "Allow bluetooth permission to print receipt",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+            if (cFlag && bFlag) {
+                val directions = HomeFragmentDirections.actionHomeFragmentToScannerFragment()
+                findNavController().navigate(directions)
             }
         }
 
@@ -138,11 +157,6 @@ class HomeFragment : Fragment() {
             permission
         )
         if (!displayRational) {
-            Toast.makeText(
-                requireContext(),
-                "Camera Permission Required",
-                Toast.LENGTH_LONG
-            ).show()
 
             val intent = Intent()
             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
@@ -157,7 +171,7 @@ class HomeFragment : Fragment() {
         } else {
             requestMultiplePermissions.launch(
                 arrayOf(
-                    Manifest.permission.CAMERA
+                    permission
                 )
             )
         }

@@ -2,16 +2,14 @@ package com.creatah.yesattendance.ui.scanner
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
@@ -25,7 +23,6 @@ import com.dantsu.escposprinter.EscPosPrinter
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
 import com.dantsu.escposprinter.textparser.PrinterTextParserImg
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ScannerFragment : Fragment() {
@@ -101,7 +98,7 @@ class ScannerFragment : Fragment() {
                         binding.progressBar.visibility = View.VISIBLE
                     }
                     Status.SUCCESS -> {
-                        if(it.data!!.error == true) {
+                        if(!it.data?.error!!) {
                             val data = it.data
                             dialogBinding?.let { dialog ->
                                 dialog.tvNameText.text = data.memberName ?: "-"
