@@ -25,21 +25,26 @@ class ScannerRepositoryImpl @Inject constructor(private val yesAttendanceApiServ
             return
         }
 
-        val response = yesAttendanceApiService.getMemberData(qrValue = qrValue)
-        if (response.isSuccessful) {
-            _responseValue.value = Resource.success(response.body())
-        } else {
-            if (response.code() == 400) {
-                val error = Gson().fromJson(
-                    response.errorBody()!!.charStream(),
-                    ErrorModel::class.java
-                )
-                _responseValue.value =
-                    Resource.error(error.message ?: "Something went wrong!", response.code(), null)
+        try {
+            val response = yesAttendanceApiService.getMemberData(qrValue = qrValue)
+            if (response.isSuccessful) {
+                _responseValue.value = Resource.success(response.body())
             } else {
-                _responseValue.value = Resource.error(response.message(), response.code(), null)
-            }
+                if (response.code() == 400) {
+                    val error = Gson().fromJson(
+                        response.errorBody()!!.charStream(),
+                        ErrorModel::class.java
+                    )
+                    _responseValue.value =
+                        Resource.error(error.message ?: "Something went wrong!", response.code(), null)
+                } else {
+                    _responseValue.value = Resource.error(response.message(), response.code(), null)
+                }
 
+            }
+        } catch (exception: Exception) {
+            _responseValue.value =
+                Resource.error("Error: Data Incorrect", 0, null)
         }
     }
 }
