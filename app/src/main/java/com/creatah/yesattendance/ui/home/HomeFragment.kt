@@ -2,12 +2,14 @@ package com.creatah.yesattendance.ui.home
 
 import android.Manifest
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +17,20 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.creatah.yesattendance.BuildConfig
+import com.creatah.yesattendance.R
+import com.creatah.yesattendance.data.model.ResponseModel
 import com.creatah.yesattendance.databinding.FragmentHomeBinding
+import com.creatah.yesattendance.databinding.LayoutPrintDialogBinding
+import com.creatah.yesattendance.databinding.LayoutQrErrorBinding
+import com.creatah.yesattendance.ui.scanner.ScannerViewModel
+import com.dantsu.escposprinter.EscPosPrinter
+import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
+import com.dantsu.escposprinter.textparser.PrinterTextParserImg
 
 class HomeFragment : Fragment() {
 
@@ -28,12 +40,16 @@ class HomeFragment : Fragment() {
     private var bFlag = false
     private var cFlag = false
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
+        binding.btnAddMember.setOnClickListener {
+            val directions = HomeFragmentDirections.actionHomeFragmentToSearchFragment()
+            findNavController().navigate(directions)
+        }
         binding.btnScan.setOnClickListener {
 
 //            requestCameraPermission.launch(
@@ -176,5 +192,6 @@ class HomeFragment : Fragment() {
             )
         }
     }
+
 
 }

@@ -7,7 +7,9 @@ data class ResponseModel(
     @SerializedName("date_time")
     val dateTime: String?,
     @SerializedName("error")
-    val error: Boolean?,
+    val error: Boolean,
+    @SerializedName("error_code")
+    val errorCode: Int?,
     @SerializedName("member_name")
     val memberName: String?,
     @SerializedName("message")

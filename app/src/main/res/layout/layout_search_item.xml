@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/cl_search"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tv_search"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="wrap_content"
+        style="@style/text_regular_18"
+        android:text="Javid"
+        android:padding="@dimen/_5dp"
+        android:layout_marginVertical="@dimen/_10dp"
+        android:layout_marginHorizontal="@dimen/_15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/view1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="@dimen/_1dp"
+        android:background="@color/grey"
+        app:layout_constraintTop_toBottomOf="@id/tv_search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_search"
+        app:layout_constraintEnd_toEndOf="@id/tv_search"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

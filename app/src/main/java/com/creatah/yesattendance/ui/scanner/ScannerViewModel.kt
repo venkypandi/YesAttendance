@@ -12,10 +12,18 @@ class ScannerViewModel @Inject constructor(private val scannerRepository: Scanne
     ViewModel() {
 
     val responseValue = scannerRepository.responseValue
+    val memberList = scannerRepository.memberList
 
     fun getMemberData(qrValue: String) {
         viewModelScope.launch {
             scannerRepository.getMemberData(qrValue = qrValue)
         }
     }
+
+    fun getMemberList() {
+        viewModelScope.launch {
+            scannerRepository.getMemberList()
+        }
+    }
+
 }
