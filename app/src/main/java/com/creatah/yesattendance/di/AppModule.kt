@@ -28,5 +28,4 @@ object AppModule {
     fun provideYesAttendanceApiService(retrofit: Retrofit): YesAttendanceApiService {
         return retrofit.create(YesAttendanceApiService::class.java)
     }
-
 }

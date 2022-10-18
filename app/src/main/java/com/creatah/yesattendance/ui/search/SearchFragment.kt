@@ -22,7 +22,9 @@ import com.creatah.yesattendance.utils.Status
 import com.dantsu.escposprinter.EscPosPrinter
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
 import com.dantsu.escposprinter.textparser.PrinterTextParserImg
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
@@ -41,6 +43,8 @@ class SearchFragment : Fragment() {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         createDialog()
         createErrorDialog()
+        setObserver()
+        scannerViewModel.getMemberList()
         adapter = SearchListAdapter { member: Member ->  listItemClicked(member) }
         return binding.root
     }
@@ -109,7 +113,6 @@ class SearchFragment : Fragment() {
                             errorDialog?.show()
                         }
                         binding.progressBar.visibility = View.GONE
-
                     }
                     Status.ERROR -> {
                         it.message?.let { it1 ->
@@ -125,24 +128,14 @@ class SearchFragment : Fragment() {
     }
 
     private fun setMemberListAdapter(memberList: List<Member>?) {
-
-    }
-
-    private fun openDataDialog(data: ResponseModel) {
-        dialogBinding?.let { dialog ->
-            dialog.tvNameText.text = data.memberName ?: "-"
-            dialog.tvTokenText.text = (data.tokenNumber ?: "-").toString()
-            dialog.tvTimeText.text = data.dateTime ?: "-"
-
-            dialog.btnClose.setOnClickListener {
-                printDialog?.dismiss()
-            }
-            dialog.btnPrint.setOnClickListener {
-                printDialog?.dismiss()
-                printReceipt(data)
-            }
+        binding.rvList.adapter = adapter
+        if (memberList != null) {
+            adapter.setMemberList(memberList)
         }
-        printDialog?.show()
+        if (adapter.itemCount <= 0) {
+            errorDialogBinding?.tvErrorMessage?.text = "No list found"
+            errorDialog?.show()
+        }
     }
 
     private fun createDialog() {
